@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    char *string = argv[2];
+    char *string = argv[1];
     char *line = NULL;
     size_t size = 0;
 
