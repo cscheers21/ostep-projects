@@ -7,21 +7,31 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    FILE *fp = fopen(argv[2], "r");
-    if (fp == NULL) {
-        printf("wgrep: cannot open file\n");
-        return 1;
+    FILE *input = NULL;
+
+    if (argc < 3) {
+        input = stdin;
+    }
+    else {
+        input = fopen(argv[2], "r");
+        if (input == NULL) {
+            printf("wgrep: cannot open file\n");
+            return 1;
+        }
     }
 
     char *string = argv[1];
     char *line = NULL;
     size_t size = 0;
 
-    while(getline(&line, &size, fp) != -1) {
+    while(getline(&line, &size, input) != -1) {
             if (strstr(line, string) != NULL) {
                 printf("%s", line);
             }
+            free(line);
     }
+
+    fclose(input);
 
     return 0;
 }
