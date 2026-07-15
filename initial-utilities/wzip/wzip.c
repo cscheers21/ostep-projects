@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 
 int main(int argc, char *argv[]) {
 
@@ -11,6 +12,7 @@ int main(int argc, char *argv[]) {
     int prev_char;
     int sent_char;
     int counter = 1;
+    bool first_file = true;
     FILE *fp = NULL;
 
     while (index < argc) {
@@ -20,27 +22,35 @@ int main(int argc, char *argv[]) {
             return 1;
         }
 
-        prev_char = fgetc(fp);
-        if (prev_char == EOF) {
-            index++;
-            continue;
+        if (first_file) {
+            prev_char = fgetc(fp);
+            if (prev_char == EOF) {
+                fclose(fp);
+                index++;
+                continue;
+            }
+            first_file = false;
         }
 
-        while (prev_char != EOF) {
-            sent_char = fgetc(fp);
-            if (sent_char != prev_char) {
-                fwrite(&counter, sizeof(int), 1, stdout);
-                fwrite(&prev_char, sizeof(char), 1, stdout);
-                counter = 1;
-            }
-            else {
+        while ((sent_char = fgetc(fp)) != EOF) {
+            if (sent_char == prev_char) {
                 counter++;
             }
+            else {
+                fwrite(&counter, sizeof(int), 1, stdout);
+                fwrite(&prev_char, sizeof(char), 1, stdout);
 
-            prev_char = sent_char;
+                prev_char = sent_char;
+                counter = 1;
+            }
         }
         fclose(fp);
         index++;
+    }
+
+    if (!first_file) {
+        fwrite(&counter, sizeof(int), 1, stdout);
+        fwrite(&prev_char, sizeof(char), 1, stdout);
     }
     return 0;
 }
