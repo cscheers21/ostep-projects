@@ -18,15 +18,10 @@ int main(int argc, char *argv[]) {
     }
 
     int counter = 1;
+    char sent_char;
 
-    char sent_char = fgetc(fp);
-    if (sent_char == EOF) {
-        fwrite(&counter, sizeof(int), 1, stdout);
-        fwrite(&prev_char, sizeof(char), 1, stdout);
-        return 0;
-    }
-
-    while (sent_char != EOF) {
+    while (prev_char != EOF) {
+        sent_char = fgetc(fp);
         if (sent_char != prev_char) {
             fwrite(&counter, sizeof(int), 1, stdout);
             fwrite(&prev_char, sizeof(char), 1, stdout);
@@ -39,10 +34,6 @@ int main(int argc, char *argv[]) {
         prev_char = sent_char;
         sent_char = fgetc(fp);
     }
-
-    counter++;
-    fwrite(&counter, sizeof(int), 1, stdout);
-    fwrite(&prev_char, sizeof(char), 1, stdout);
-
+    
     return 0;
 }
