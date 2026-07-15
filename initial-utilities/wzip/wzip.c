@@ -52,5 +52,6 @@ int main(int argc, char *argv[]) {
         fwrite(&counter, sizeof(int), 1, stdout);
         fwrite(&prev_char, sizeof(char), 1, stdout);
     }
+    
     return 0;
 }
