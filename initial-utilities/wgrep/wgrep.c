@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
@@ -28,10 +29,12 @@ int main(int argc, char* argv[]) {
             if (strstr(line, string) != NULL) {
                 printf("%s", line);
             }
-            free(line);
     }
+    free(line);
 
-    fclose(input);
+    if (input != stdin) {
+        fclose(input);
+    }
 
     return 0;
 }
