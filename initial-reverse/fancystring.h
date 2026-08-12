@@ -4,7 +4,7 @@
 
 typedef struct _fancystring
 {
-    ssize_t length;
+    size_t length;
     char *string;
     size_t buffer_size;
     struct _fancystring *next;
