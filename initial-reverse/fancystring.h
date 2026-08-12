@@ -1,10 +1,14 @@
+#ifndef FANCYSTRING_H
+#define FANCYSTRING_H
 #define _GNU_SOURCE
+
+#include <sys/types.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 typedef struct _fancystring
 {
-    size_t length;
+    ssize_t length;
     char *string;
     size_t buffer_size;
     struct _fancystring *next;
@@ -66,6 +70,8 @@ FancyString *fancy_readlines(FILE *stream)
 
     return last;
 }
+
+#endif
 
 /*int main()
 {
